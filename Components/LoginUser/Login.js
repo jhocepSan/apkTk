@@ -25,7 +25,7 @@ const Login = ({ navigation }) => {
                 })
                 .catch(error => console.log(error))
         } else {
-            console.log("campos vacios")
+            console.log("campos vaciosassgi")
         }
     }
     return (
