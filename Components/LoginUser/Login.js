@@ -1,14 +1,19 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput,Alert,Image } from 'react-native';
+import UtilsStore from '../Utils/UtilsStore'
 import Config from '../../Config';
 
 const Login = ({ navigation }) => {
     const [correo, setCorreo] = useState('');
     const [password, setPassword] = useState('');
-    const ingresarSistema = () => {
+    function configuracionSistema(){
+        navigation.navigate('Config');
+    }
+    const ingresarSistema = async() => {
         if (correo !== '' && password != '') {
-            console.log(Config.webService, correo, password)
-            fetch(`${Config.webService}/login/iniciarSession`, {
+            var servidor=await UtilsStore.getElemento('servidor')
+            console.log(servidor,"login usuario");
+            fetch(`http://${servidor}:4000/login/iniciarSession`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -20,16 +25,50 @@ const Login = ({ navigation }) => {
                 }),
             }).then(res => res.json())
                 .then(data => {
-                    console.log(data.ok);
-                    navigation.navigate('Mando')
+                    if(data.ok){
+                        UtilsStore.saveArticle('info',JSON.stringify(data.ok));
+                        navigation.navigate('Mando')
+                    }else{
+                        Alert.alert(
+                            'Ingreso Incorrecto',
+                            'Contraseña o correo, incorrecto',
+                            [
+                                {
+                                    text:'ACEPTAR'
+                                }
+                            ]
+                        )
+                    }
                 })
-                .catch(error => console.log(error))
+                .catch(error => {
+                    Alert.alert(
+                        'Servidor No Valido',
+                        'No esta en funcionamiento, el servidor o verifique el codigo, gracias ...',
+                        [
+                            {
+                                text:'ACEPTAR'
+                            }
+                        ]
+                    )
+                })
         } else {
-            console.log("campos vaciosassgi")
+            Alert.alert(
+                'Campo Vacio',
+                'Ingrese sus datos Por favor...',
+                [
+                    {
+                        text:'ACEPTAR'
+                    }
+                ]
+            )
         }
     }
     return (
         <View style={styles.container}>
+            <Image
+                source={require('../../assets/login.png')}
+                style={styles.ImageIconStyle}
+                />
             <Text style={styles.text}>Correo</Text>
             <TextInput
                 style={styles.input}
@@ -48,7 +87,10 @@ const Login = ({ navigation }) => {
                 keyboardType="text"
             />
             <TouchableOpacity style={styles.button} onPress={ingresarSistema}>
-                <Text style={styles.text}>Ingresar</Text>
+                <Text style={styles.textBtn}>Ingresar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonC} onPress={()=>configuracionSistema()}>
+                <Text style={styles.textBtn}>Configurar</Text>
             </TouchableOpacity>
         </View>
     );
@@ -77,13 +119,34 @@ const styles = StyleSheet.create({
         width: '80%',
         fontSize: 18
     },
+    textBtn: {
+        color: 'black',
+        width: '80%',
+        fontSize: 18,
+        textAlign:'center'
+    },
     button: {
         alignItems: 'center',
-        backgroundColor: '#408300',
+        backgroundColor: '#4CBD55',
         padding: 10,
         marginTop: 10,
         borderRadius: 10,
-        fontSize: 18
+        fontSize: 18,
+        width: '80%',
+        flexDirection: 'row',
+    },
+    buttonC: {
+        alignItems: 'center',
+        backgroundColor: '#5882FA',
+        padding: 10,
+        marginTop: 10,
+        borderRadius: 10,
+        fontSize: 18,
+        width: '80%',
+        flexDirection: 'row',
+    },
+    ImageIconStyle:{
+        width:'20%'
     }
 })
 
