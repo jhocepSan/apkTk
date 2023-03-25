@@ -5,6 +5,7 @@ import UtilsStore from '../Utils/UtilsStore';
 
 const VistaConfig = () => {
     const [servidorIp, setServidorIp] = useState('');
+    const [sector,setSector] = useState('');
     function validarConneccion() {
         console.log(servidorIp,"configuraciones ")
         if (servidorIp !== '') {
@@ -20,6 +21,7 @@ const VistaConfig = () => {
                     if (data.ok) {
                         Alert.alert("Conección Correcta","CONECCION CORRECTA CON EL SERVIDOR");
                         UtilsStore.saveArticle('servidor', servidorIp);
+                        UtilsStore.saveArticle('sector', sector);
                     } else {
                         Alert.alert('Conección Erronea',
                             'No es posible establecer la conección con el servidor ' + servidorIp + ' verifica el codigo, por favor...',
@@ -53,9 +55,11 @@ const VistaConfig = () => {
     }
     const servidorNombre=async()=>{
         var info= await UtilsStore.getElemento('servidor');
+        var infoS= await UtilsStore.getElemento('sector');
         console.log(info,"informacion");
-        if(info!==undefined||info!==null){
+        if((info!==undefined||info!==null)&&(infoS!==undefined||infoS!==null)){
             setServidorIp(info);
+            setSector(infoS);
         }
     }
     useEffect(()=>{
@@ -65,6 +69,8 @@ const VistaConfig = () => {
         <View style={styles.container}>
             <Text style={styles.text}>Ip Servidor</Text>
             <TextInput style={styles.inputText} keyboardType='text' value={servidorIp} onChangeText={setServidorIp} />
+            <Text style={styles.text}>Zona Albitraje</Text>
+            <TextInput style={styles.inputText} keyboardType='text' value={sector} onChangeText={setSector} />
             <TouchableOpacity style={styles.button} onPress={() => validarConneccion()}>
                 <Icon name="server" size={25} style={styles.buttonImageIconStyle} color="white" />
                 <Text style={styles.textButton}> Conectar</Text>

@@ -5,6 +5,7 @@ import Login from './Components/LoginUser/Login';
 import PrincipalMando from './Components/Mando/PrincipalMando';
 import VistaConfig from './Components/Mando/VistaConfig';
 import MandoPelea from './Components/Mando/MandoPelea';
+import MandoPeleaDoble from './Components/Mando/MandoPeleaDoble';
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,7 @@ export default function App() {
             }, 
           }}/>
         <Stack.Screen name='MandoP' component={MandoPelea} options={{headerShown:false}}/>
+        <Stack.Screen name='MandoPDos' component={MandoPeleaDoble} options={{headerShown:false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

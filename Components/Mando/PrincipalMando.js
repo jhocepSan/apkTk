@@ -11,6 +11,9 @@ const PrincipalMando = (props) => {
   const irMandoPelea = ()=>{
     navigation.navigate('MandoP');
   }
+  const irAMandos = ()=>{
+    navigation.navigate('MandoPDos');
+  }
   const onPress = () => {
     alert("hola mundo");
   }
@@ -27,6 +30,10 @@ const PrincipalMando = (props) => {
       <TouchableOpacity style={styles.button} onPress={onPress}>
         <Icon name="chart-pie" size={25} style={styles.buttonImageIconStyle} color="white" />
         <Text style={styles.text}>Mando Poomse</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={irAMandos}>
+        <Icon name="user" size={25} style={styles.buttonImageIconStyle} color="white" />
+        <Text style={styles.text}>Mando Pelea Dos</Text>
       </TouchableOpacity>
     </View>
   )
