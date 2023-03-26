@@ -17,8 +17,15 @@ const PrincipalMando = (props) => {
   const onPress = () => {
     alert("hola mundo");
   }
+  const irRegistroCompetidor = ()=> {
+    navigation.navigate('RegComp');
+  }
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.button} onPress={irRegistroCompetidor}>
+        <Icon name="users" size={25} style={styles.buttonImageIconStyle} color="white" />
+        <Text style={styles.text}>Registrar Competidor</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={irConfiguraciones}>
         <Icon name="cog" size={25} style={styles.buttonImageIconStyle} color="white" />
         <Text style={styles.text}>Configurar</Text>

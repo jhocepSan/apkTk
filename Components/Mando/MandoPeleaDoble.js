@@ -93,7 +93,7 @@ const MandoPeleaDoble = () => {
     console.log(datos,srv,sectorp)
   }
   const enviarDato = async (dato) => {
-    fetch(`http://${servidor}:4000/mandojuec/enviarDatos`, {
+    fetch(`http://${servidor}/mandojuec/enviarDatos`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

@@ -73,7 +73,7 @@ const MandoPelea = () => {
   const enviarDato = async (dato) => {
     var datos = await UtilsStore.getElemento('info');
     var srv = await UtilsStore.getElemento('servidor');
-    fetch(`http://${srv}:4000/mandojuec/enviarDatos`, {
+    fetch(`http://${srv}/mandojuec/enviarDatos`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

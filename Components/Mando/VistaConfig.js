@@ -6,11 +6,12 @@ import UtilsStore from '../Utils/UtilsStore';
 const VistaConfig = () => {
     const [servidorIp, setServidorIp] = useState('');
     const [sector,setSector] = useState('');
+    const [puerto,setPuerto] = useState(0);
     function validarConneccion() {
         console.log(servidorIp,"configuraciones ")
         if (servidorIp !== '') {
             console.log(servidorIp);
-            fetch(`http://${servidorIp}:4000/mandojuec/conectar`, {
+            fetch(`http://${servidorIp}/mandojuec/conectar`, {
                 method: 'GET',
                 headers: {
                     Accept: 'application/json',
@@ -56,7 +57,6 @@ const VistaConfig = () => {
     const servidorNombre=async()=>{
         var info= await UtilsStore.getElemento('servidor');
         var infoS= await UtilsStore.getElemento('sector');
-        console.log(info,"informacion");
         if((info!==undefined||info!==null)&&(infoS!==undefined||infoS!==null)){
             setServidorIp(info);
             setSector(infoS);

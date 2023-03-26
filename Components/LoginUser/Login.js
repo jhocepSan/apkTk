@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput,Alert,Image } from 'react-native';
 import UtilsStore from '../Utils/UtilsStore'
 import Config from '../../Config';
@@ -6,14 +6,14 @@ import Config from '../../Config';
 const Login = ({ navigation }) => {
     const [correo, setCorreo] = useState('');
     const [password, setPassword] = useState('');
+    const [servidor,setServidor] = useState('');
     function configuracionSistema(){
         navigation.navigate('Config');
     }
     const ingresarSistema = async() => {
         if (correo !== '' && password != '') {
-            var servidor=await UtilsStore.getElemento('servidor')
             console.log(servidor,"login usuario");
-            fetch(`http://${servidor}:4000/login/iniciarSession`, {
+            fetch(`http://${servidor}/login/iniciarSession`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -26,6 +26,7 @@ const Login = ({ navigation }) => {
             }).then(res => res.json())
                 .then(data => {
                     if(data.ok){
+                        console.log(data.ok);
                         UtilsStore.saveArticle('info',JSON.stringify(data.ok));
                         navigation.navigate('Mando')
                     }else{
@@ -43,7 +44,7 @@ const Login = ({ navigation }) => {
                 .catch(error => {
                     Alert.alert(
                         'Servidor No Valido',
-                        'No esta en funcionamiento, el servidor o verifique el codigo, gracias ...',
+                        'No esta en funcionamiento, el servidor o verifique el codigo, gracias ...'+error.message,
                         [
                             {
                                 text:'ACEPTAR'
@@ -63,6 +64,15 @@ const Login = ({ navigation }) => {
             )
         }
     }
+    const getInformacion=async()=>{
+        var server=await UtilsStore.getElemento('servidor');
+        if(server!==null&&server!==undefined){
+            setServidor(server);
+        }
+    }
+    useEffect(()=>{
+        getInformacion()
+    },[])
     return (
         <View style={styles.container}>
             <Image
