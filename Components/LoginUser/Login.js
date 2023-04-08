@@ -12,7 +12,7 @@ const Login = ({ navigation }) => {
     }
     const ingresarSistema = async() => {
         if (correo !== '' && password != '') {
-            console.log(servidor,"login usuario");
+            if(servidor!==null&&servidor!==undefined){
             fetch(`http://${servidor}/login/iniciarSession`, {
                 method: 'POST',
                 headers: {
@@ -52,6 +52,18 @@ const Login = ({ navigation }) => {
                         ]
                     )
                 })
+            }else{
+                getInformacion();
+                Alert.alert(
+                    'Intente Nuevamente',
+                    'Estamos configurando la configuración, intente nuevamente',
+                    [
+                        {
+                            text:'ACEPTAR'
+                        }
+                    ]
+                )
+            }
         } else {
             Alert.alert(
                 'Campo Vacio',

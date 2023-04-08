@@ -1,9 +1,11 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import UtilsStore from '../Utils/UtilsStore';
 
 const PrincipalMando = (props) => {
   const { navigation } = props;
+  const [session,setSession] = useState({})
   const irConfiguraciones = () => {
     console.log("hola")
     navigation.navigate('Config');
@@ -20,6 +22,14 @@ const PrincipalMando = (props) => {
   const irRegistroCompetidor = ()=> {
     navigation.navigate('RegComp');
   }
+  async function getinformacion(){
+    var datos = await UtilsStore.getElemento('info');
+    console.log(datos);
+    setSession(JSON.parse(datos));
+  }
+  useEffect(()=>{
+    getinformacion()
+  },[])
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} onPress={irRegistroCompetidor}>
@@ -30,15 +40,15 @@ const PrincipalMando = (props) => {
         <Icon name="cog" size={25} style={styles.buttonImageIconStyle} color="white" />
         <Text style={styles.text}>Configurar</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={irMandoPelea}>
+      <TouchableOpacity style={styles.button} onPress={irMandoPelea} disabled={session.albitro!=='A'?true:false}>
         <Icon name="user" size={25} style={styles.buttonImageIconStyle} color="white" />
         <Text style={styles.text}>Mando Pelea</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={onPress}>
+      <TouchableOpacity style={styles.button} onPress={onPress} disabled={session.albitro!=='A'?true:false}>
         <Icon name="chart-pie" size={25} style={styles.buttonImageIconStyle} color="white" />
         <Text style={styles.text}>Mando Poomse</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={irAMandos}>
+      <TouchableOpacity style={styles.button} onPress={irAMandos} disabled={session.albitro!=='A'?true:false}>
         <Icon name="user" size={25} style={styles.buttonImageIconStyle} color="white" />
         <Text style={styles.text}>Mando Pelea Dos</Text>
       </TouchableOpacity>

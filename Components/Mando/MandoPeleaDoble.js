@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   ImageIconStyleDd:{
     width: '80%',
     height: '50%',
-    transform: [{ rotate: '115deg' }],
+    transform: [{ rotate: '120deg' }],
   }
 })
 
