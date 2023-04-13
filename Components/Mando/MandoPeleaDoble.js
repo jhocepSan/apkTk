@@ -100,7 +100,7 @@ const MandoPeleaDoble = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        "info": info, dato,sector
+        "id": info.id, dato,sector,"albitro":info.albitro
       }),
     }).then(res => res.json())
       .then(data => {
@@ -182,13 +182,13 @@ const MandoPeleaDoble = () => {
         <ColRed numRows={3}>
           <TouchableOpacity style={styles.botonDoble} onPress={() => enviarDato('A')}>
             <Image
-              source={require('../../assets/peto.png')}
+              source={require('../../assets/petor.png')}
               style={styles.ImageIconStyleDd}
             />
           </TouchableOpacity>
           <TouchableOpacity style={styles.botonDoble} onPress={() => enviarDato('a')}>
             <Image
-              source={require('../../assets/cuerpo.png')}
+              source={require('../../assets/cuerpor.png')}
               style={styles.ImageIconStyleD}
             />
           </TouchableOpacity>
@@ -205,13 +205,13 @@ const MandoPeleaDoble = () => {
         <ColRed numRows={3}>
           <TouchableOpacity onPress={() => enviarDato('B')} style={styles.botonDoble}>
             <Image
-              source={require('../../assets/head.png')}
+              source={require('../../assets/headr.png')}
               style={styles.ImageIconStyleDd}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => enviarDato('b')} style={styles.botonDoble}>
             <Image
-              source={require('../../assets/cabeza.png')}
+              source={require('../../assets/cabezare.png')}
               style={styles.ImageIconStyleD}
             />
           </TouchableOpacity>

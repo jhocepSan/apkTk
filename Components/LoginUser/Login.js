@@ -12,46 +12,46 @@ const Login = ({ navigation }) => {
     }
     const ingresarSistema = async() => {
         if (correo !== '' && password != '') {
-            if(servidor!==null&&servidor!==undefined){
-            fetch(`http://${servidor}/login/iniciarSession`, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    correo,
-                    password
-                }),
-            }).then(res => res.json())
-                .then(data => {
-                    if(data.ok){
-                        console.log(data.ok);
-                        UtilsStore.saveArticle('info',JSON.stringify(data.ok));
-                        navigation.navigate('Mando')
-                    }else{
+            if(servidor!==null&&servidor!==undefined&&servidor!==''){
+                fetch(`http://${servidor}/login/iniciarSession`, {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        correo,
+                        password
+                    }),
+                }).then(res => res.json())
+                    .then(data => {
+                        if(data.ok){
+                            console.log(data.ok);
+                            UtilsStore.saveArticle('info',JSON.stringify(data.ok));
+                            navigation.navigate('Mando')
+                        }else{
+                            Alert.alert(
+                                'Ingreso Incorrecto',
+                                'Contraseña o correo, incorrecto',
+                                [
+                                    {
+                                        text:'ACEPTAR'
+                                    }
+                                ]
+                            )
+                        }
+                    })
+                    .catch(error => {
                         Alert.alert(
-                            'Ingreso Incorrecto',
-                            'Contraseña o correo, incorrecto',
+                            'Servidor No Valido',
+                            'No esta en funcionamiento, el servidor o verifique el codigo, gracias ...'+error.message,
                             [
                                 {
                                     text:'ACEPTAR'
                                 }
                             ]
                         )
-                    }
-                })
-                .catch(error => {
-                    Alert.alert(
-                        'Servidor No Valido',
-                        'No esta en funcionamiento, el servidor o verifique el codigo, gracias ...'+error.message,
-                        [
-                            {
-                                text:'ACEPTAR'
-                            }
-                        ]
-                    )
-                })
+                    })
             }else{
                 getInformacion();
                 Alert.alert(
