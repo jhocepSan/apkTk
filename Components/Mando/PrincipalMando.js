@@ -16,8 +16,8 @@ const PrincipalMando = (props) => {
   const irAMandos = ()=>{
     navigation.navigate('MandoPDos');
   }
-  const onPress = () => {
-    alert("hola mundo");
+  const irMandoPoomse = () => {
+    navigation.navigate('MandoPoomse');
   }
   const irRegistroCompetidor = ()=> {
     navigation.navigate('RegComp');
@@ -32,24 +32,20 @@ const PrincipalMando = (props) => {
   },[])
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={irRegistroCompetidor}>
-        <Icon name="users" size={25} style={styles.buttonImageIconStyle} color="white" />
-        <Text style={styles.text}>Registrar Competidor</Text>
-      </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={irConfiguraciones}>
         <Icon name="cog" size={25} style={styles.buttonImageIconStyle} color="white" />
         <Text style={styles.text}>Configurar</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={irMandoPelea} disabled={session.albitro!=='A'?true:false}>
-        <Icon name="user" size={25} style={styles.buttonImageIconStyle} color="white" />
+        <Icon name="mitten" size={25} style={styles.buttonImageIconStyle} color="white" />
         <Text style={styles.text}>Mando Pelea</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={onPress} disabled={session.albitro!=='A'?true:false}>
+      <TouchableOpacity style={styles.button} onPress={irMandoPoomse} disabled={session.albitro!=='A'?true:false}>
         <Icon name="chart-pie" size={25} style={styles.buttonImageIconStyle} color="white" />
         <Text style={styles.text}>Mando Poomse</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={irAMandos} disabled={session.albitro!=='A'?true:false}>
-        <Icon name="user" size={25} style={styles.buttonImageIconStyle} color="white" />
+        <Icon name="unity" size={25} style={styles.buttonImageIconStyle} color="white" />
         <Text style={styles.text}>Mando Pelea Dos</Text>
       </TouchableOpacity>
     </View>

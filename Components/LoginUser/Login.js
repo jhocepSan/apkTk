@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput,Alert,Image } from 'react-native';
 import UtilsStore from '../Utils/UtilsStore'
 import Config from '../../Config';
+import { ContextGlobal } from '../../App';
 
 const Login = ({ navigation }) => {
+    const {initSession,setInitSession,config,setConfig} = useContext(ContextGlobal)
     const [correo, setCorreo] = useState('');
     const [password, setPassword] = useState('');
     const [servidor,setServidor] = useState('');
@@ -26,10 +28,11 @@ const Login = ({ navigation }) => {
                 }).then(res => res.json())
                     .then(data => {
                         if(data.ok){
-                            console.log(data.ok);
+                            setInitSession(true);
                             UtilsStore.saveArticle('info',JSON.stringify(data.ok));
                             navigation.navigate('Mando')
                         }else{
+                            setInitSession(false);
                             Alert.alert(
                                 'Ingreso Incorrecto',
                                 'Contraseña o correo, incorrecto',
@@ -42,6 +45,7 @@ const Login = ({ navigation }) => {
                         }
                     })
                     .catch(error => {
+                        setInitSession(false);
                         Alert.alert(
                             'Servidor No Valido',
                             'No esta en funcionamiento, el servidor o verifique el codigo, gracias ...'+error.message,
@@ -77,9 +81,13 @@ const Login = ({ navigation }) => {
         }
     }
     const getInformacion=async()=>{
-        var server=await UtilsStore.getElemento('servidor');
-        if(server!==null&&server!==undefined){
-            setServidor(server);
+        if(config.servidor==undefined||config.servidor==null){
+            var server=await UtilsStore.getElemento('servidor');
+            if(server!==null&&server!==undefined){
+                setServidor(server);
+            }
+        }else{
+            setServidor(config.servidor);
         }
     }
     useEffect(()=>{

@@ -1,16 +1,17 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native'
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import UtilsStore from '../Utils/UtilsStore';
+import { ContextGlobal } from '../../App';
 
 const VistaConfig = () => {
+    const {config,setConfig} =useContext(ContextGlobal);
     const [servidorIp, setServidorIp] = useState('');
     const [sector,setSector] = useState('');
     const [puerto,setPuerto] = useState(0);
     function validarConneccion() {
         console.log(servidorIp,"configuraciones ")
         if (servidorIp !== '') {
-            console.log(servidorIp);
             fetch(`http://${servidorIp}/mandojuec/conectar`, {
                 method: 'GET',
                 headers: {
@@ -23,6 +24,7 @@ const VistaConfig = () => {
                         Alert.alert("Conección Correcta","CONECCION CORRECTA CON EL SERVIDOR");
                         UtilsStore.saveArticle('servidor', servidorIp);
                         UtilsStore.saveArticle('sector', sector);
+                        setConfig({'servidor':servidorIp,'sector':sector});
                     } else {
                         Alert.alert('Conección Erronea',
                             'No es posible establecer la conección con el servidor ' + servidorIp + ' verifica el codigo, por favor...',
@@ -55,11 +57,17 @@ const VistaConfig = () => {
         }
     }
     const servidorNombre=async()=>{
-        var info= await UtilsStore.getElemento('servidor');
-        var infoS= await UtilsStore.getElemento('sector');
-        if((info!==undefined||info!==null)&&(infoS!==undefined||infoS!==null)){
-            setServidorIp(info);
-            setSector(infoS);
+        if(config.servidor==undefined || config.servidor==null){
+            var info= await UtilsStore.getElemento('servidor');
+            var infoS= await UtilsStore.getElemento('sector');
+            if((info!==undefined||info!==null)&&(infoS!==undefined||infoS!==null)){
+                setServidorIp(info);
+                setSector(infoS);
+                setConfig({'servidor':info,'sector':infoS});
+            }
+        }else{
+            setServidorIp(config.servidor);
+            setSector(config.sector);
         }
     }
     useEffect(()=>{
